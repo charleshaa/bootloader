@@ -27,9 +27,8 @@ entrypoint:
 	; TODO : initialiser le pointeur de pile ainsi qu'EBP (à la même valeur)
     ; Rappel : la pile "grandi" en descendant !
 	; ...
-	push EBP
+	push EBP ;fonctionne ????
 	mov EBP, ESP
-
 
 	; TODO : appeler la fonction principale du kernel (code C)
 	; Celle-ci doit etre visible par le linker
@@ -63,15 +62,10 @@ entrypoint:
 ; Cette section devra etre alignee sur 4 bytes.
 ; ...
 
-;section .stack
+section .stack
 
-;stack:
-	stack_size resb 256;reserver de la memoire pour la pile ??????
+stack:
+	resb 2^20;reserver de la memoire pour la pile
 
 
 ;---------------------------------------------------------------------------------------
-; rempli le code avec des "nop" (opcode 0x90) jusqu'à l'adresse 510
-times 510-($-$$) db 0x90
-
-; les 2 bytes de signature d'un boot secteur
-dw 0xAA55
