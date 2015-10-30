@@ -37,13 +37,15 @@ entrypoint:
 	;affiche un smile
 	mov EAX, 0xB8000
 	mov word [eax], 0x0E01
+	mov EAX, 0xB8002
+	mov word [eax], 0x0E01
 
 	;il faudra faire un call sur une fonction en C
 
 	mov ESP, EBP
 	pop EBP
 	mov EAX,0
-	ret	
+	;ret	;????????????????ca plante on sais pas pourquoi
 
 	
 

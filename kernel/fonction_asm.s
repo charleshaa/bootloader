@@ -9,45 +9,39 @@ section .text
 		push	ebp
 		mov		ebp,esp
 
-		mov		eax,[ebp+8]
-		mov		ecx,[ebp+12]
-		add		eax,ecx
+		;PORT
+		mov		dx,[ebp+8]
+		;DATA
+		mov		al,[ebp+12]
 
-		mov		esp,ebp
-		pop		ebp
-		ret
+		out		dx,al
 
 	outw:
 		push	ebp
 		mov		ebp,esp
 
-		mov		eax,[ebp+8]
-		mov		ecx,[ebp+12]
-		add		eax,ecx
+		mov		dx,[ebp+8]
+		mov		ax,[ebp+12]
 
-		mov		esp,ebp
-		pop		ebp
-		ret
+		out		dx,ax
 
 	inb:
 		push	ebp
 		mov		ebp,esp
 
-		mov		eax,[ebp+8]
-		mov		ecx,[ebp+12]
-		add		eax,ecx
+		mov		dx,[ebp+8]
+		in		al,dx
 
 		mov		esp,ebp
 		pop		ebp
 		ret
 
-	inW: 
+	inW:
 		push	ebp
 		mov		ebp,esp
 
-		mov		eax,[ebp+8]
-		mov		ecx,[ebp+12]
-		add		eax,ecx
+		mov		dx,[ebp+8]
+		in		ax,dx
 
 		mov		esp,ebp
 		pop		ebp

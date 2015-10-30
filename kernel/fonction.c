@@ -1,32 +1,32 @@
-void *memset (void * dst, int valie, uint count);
-void *memcpy (void * dst, void *src, uint count);
-int strncmp (const char *p, cont char *qm uint n);
+#include "fonction.h"
 
 
-
-void *memset (void * dst, int value, uint count) {
-	int i;
-	for (int i = 0; i < count; ++i)
+void *memset (void * dst, int value, unsigned int count) {
+	char *dp = dst;
+	unsigned int i;
+	for (i = 0; i < count; ++i)
 		{
-			dst[i] = value;
+			dp[i] = value;
 		}	
 	return dst;
 }
 
 
-void *memcpy (void * dst, void *src, uint count) {
-	int i;
-	for (int i = 0; i < count; ++i)
+void *memcpy (void * dst, void *src, unsigned int count) {
+	unsigned int i;
+	char * dp = dst;
+	const char * sp = src;
+	for (i = 0; i < count; ++i)
 	{
-		dst[i] = src[i];
+		dp[i] = sp[i];
 	}
 	return dst;
 }
 
 
-int strncmp (const char *p, cont char *qm uint n) {
-	int i;
-	for (int i = 0; i < n; ++i)
+int strncmp (const char *p, const char *q, unsigned int n) {
+	unsigned int i;
+	for (i = 0; i < n; ++i)
 	{
 		if(p[i] != q[i]) {
 			if(p[i] < q[i])
