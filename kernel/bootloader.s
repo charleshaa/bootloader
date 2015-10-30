@@ -1,5 +1,5 @@
 global entrypoint  ; the entry point symbol defined in kernel.ld
-
+extern kernel
 ; Values for the multiboot header
 MULTIBOOT_HEADER_MAGIC     equ 0x1BADB002
 MULTIBOOT_HEADER_FLAGS     equ 0x0
@@ -34,9 +34,11 @@ entrypoint:
 	; Celle-ci doit etre visible par le linker
 	; ...
 
+
 	;affiche un smile
 	mov EAX, 0xB8000
 	mov word [eax], 0x0E01
+	call kernel
 	mov EAX, 0xB8002
 	mov word [eax], 0x0E01
 

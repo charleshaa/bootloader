@@ -7,7 +7,10 @@ kernel.o: kernel.c
 	gcc kernel.c -o kernel.o -std=gnu99 -m32 -fno-builtin -ffreestanding -Wall -Wextra -c
 
 gdt_asm.o: gdt_asm.s
-	nasm -f elf32 gdt_asm.s 
+	nasm -f elf32 gdt_asm.s
+
+fonction_asm.o: fonction_asm.s
+	nasm -f elf32 fonction_asm.s 
 
 gdt.o: gdt.c gdt.c fonction.h ../common/types.h x86.h
 	gcc -std=gnu99 -m32 -fno-builtin -ffreestanding -Wall -Wextra -c gdt.c
@@ -15,8 +18,8 @@ gdt.o: gdt.c gdt.c fonction.h ../common/types.h x86.h
 fonction.o: fonction.c fonction.h
 	gcc -std=gnu99 -m32 -fno-builtin -ffreestanding -Wall -Wextra -c fonction.c
 
-kernel.elf: kernel.o gdt_asm.o bootloader.o gdt.o fonction.o
-	ld -Tkernel.ld -melf_i386 kernel.o gdt_asm.o bootloader.o gdt.o fonction.o -o kernel.elf 
+kernel.elf: kernel.o gdt_asm.o bootloader.o gdt.o fonction.o fonction_asm.o
+	ld -Tkernel.ld -melf_i386 kernel.o gdt_asm.o bootloader.o gdt.o fonction.o fonction_asm.o -o kernel.elf 
 	cp kernel.elf ../iso/boot
 
 iso:
