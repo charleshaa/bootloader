@@ -10,5 +10,6 @@ void set_backColour(uint8_t color);
 void set_foreColour(uint8_t color);
 uint8_t get_backColour();
 uint8_t get_foreColour();
+static void scroll();
 
 #endif

@@ -93,7 +93,7 @@ void monitor_put(char c)
    }
 
    // Scroll the screen if needed.
-
+   scroll();
    // Move the hardware cursor.
  	update_cursor(cursor_x, cursor_y);
 }
@@ -140,6 +140,36 @@ uint8_t get_foreColour() {
 	return foreColour;
 }
 
+
+static void scroll()
+{
+
+   // Get a space character with the default colour attributes.
+   uint8_t attributeByte = (backColour << 4) | (foreColour & 0x0F);
+   uint16_t blank = 0x20 /* space */ | (attributeByte << 8);
+
+   // Row 25 is the end, this means we need to scroll up
+   if(cursor_y >= 25)
+   {
+       // Move the current text chunk that makes up the screen
+       // back in the buffer by a line
+       int i;
+       for (i = 0*80; i < 24*80; i++)
+       {
+           video_memory[i] = video_memory[i+80];
+       }
+
+       // The last line should now be blank. Do this by writing
+       // 80 spaces to it.
+       for (i = 24*80; i < 25*80; i++)
+       {
+           video_memory[i] = blank;
+       }
+       // The cursor should now be on the last line.
+       cursor_y = 24;
+       update_cursor(cursor_x, cursor_y);
+   }
+}
 
 /* CE QU IL FAUT FAIRE
 Fonction d'initialisation : initialise l'affichage en effaçant l'écran et en positionnant le curseur
