@@ -18,8 +18,11 @@ gdt.o: gdt.c gdt.c fonction.h ../common/types.h x86.h
 fonction.o: fonction.c fonction.h
 	gcc -std=gnu99 -m32 -fno-builtin -ffreestanding -Wall -Wextra -c fonction.c
 
-kernel.elf: kernel.o gdt_asm.o bootloader.o gdt.o fonction.o fonction_asm.o
-	ld -Tkernel.ld -melf_i386 kernel.o gdt_asm.o bootloader.o gdt.o fonction.o fonction_asm.o -o kernel.elf 
+fonction_affichage.o: fonction_affichage.c fonction_affichage.h
+	gcc -std=gnu99 -m32 -fno-builtin -ffreestanding -Wall -Wextra -c fonction_affichage.c
+
+kernel.elf: kernel.o gdt_asm.o bootloader.o gdt.o fonction.o fonction_asm.o fonction_affichage.o
+	ld -Tkernel.ld -melf_i386 kernel.o gdt_asm.o bootloader.o gdt.o fonction.o fonction_asm.o fonction_affichage.o -o kernel.elf 
 	cp kernel.elf ../iso/boot
 
 iso:

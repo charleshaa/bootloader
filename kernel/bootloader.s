@@ -34,13 +34,8 @@ entrypoint:
 	; Celle-ci doit etre visible par le linker
 	; ...
 
-
-	;affiche un smile
-	mov EAX, 0xB8000
-	mov word [eax], 0x0E01
 	call kernel
-	mov EAX, 0xB8002
-	mov word [eax], 0x0E01
+
 
 	;il faudra faire un call sur une fonction en C
 
