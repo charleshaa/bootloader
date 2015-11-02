@@ -3,8 +3,9 @@
 #include "x86.h"
 #include "fonction.h"
 
-// TODO: déclarer la table GDT
+//Declaration la table GDT
 static gdt_entry_t gdt[3];
+
 // Pointeur sur la table GDT
 static gdt_ptr_t   gdt_ptr;
 

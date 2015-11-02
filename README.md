@@ -1,5 +1,8 @@
 # bootloader
 
-faire make dans le fichier bootloader
+reste a faire :
 
-un smile jaune doit apparaitre en haut a gauche 
+-fonction printf
+-code kernel mode normal/test
+-gdt
+-verifier code bootloader

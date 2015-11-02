@@ -27,15 +27,13 @@ kernel.elf: kernel.o gdt_asm.o bootloader.o gdt.o fonction.o fonction_asm.o fonc
 
 iso:
 	mkdir ../iso
-boot:
+boot: iso
 	mkdir ../iso/boot/
-grub:
+grub: iso boot
 	mkdir ../iso/boot/grub
 	cp ../grub/grub.cfg ../iso/boot/grub
 
-
 run: iso boot grub kernel.elf 
-
 
 clean:
 	rm -f *.o
