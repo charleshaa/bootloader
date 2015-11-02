@@ -2,7 +2,6 @@ global outb
 global outw
 global inb
 global inw
-global test
 
 section .text
 
@@ -51,17 +50,6 @@ section .text
 
 		mov		dx,[ebp+8]
 		in		ax,dx
-
-		mov		esp,ebp
-		pop		ebp
-		ret
-
-	test:
-		push	ebp
-		mov		ebp,esp
-
-		mov EAX, 0xB8004
-		mov word [eax], 0xe701;e=couleur fond 7=couleur char et 01 =char
 
 		mov		esp,ebp
 		pop		ebp

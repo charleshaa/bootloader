@@ -9,7 +9,6 @@ extern void outb(uint16_t port, uint8_t data);
 extern void outw(uint16_t port, uint16_t data);
 extern uint8_t inb(uint16_t port);
 extern uint16_t inw(uint16_t port);
-extern void test();
 
 // The VGA framebuffer starts at 0xB8000.
 uint16_t *video_memory = (uint16_t *)0xB8000;
@@ -183,7 +182,4 @@ en haut à gauche.
 formats suivants :%c,%s,%d et %x
 • Fonction permettant de définir la position du curseur.
 • Fonction permettant d'obtenir la position du curseur
- *********DEJA FAIT*****
-
-
 */

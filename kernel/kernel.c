@@ -9,7 +9,6 @@
 void kernel(){
 	//??marche pas gdt_init();
 	//TODO
-	test();
 	update_cursor(0,0);
 	monitor_clear();
 	//outb(0x3C0,0x02);//3C0 change couleur fond sur 1 byte 
