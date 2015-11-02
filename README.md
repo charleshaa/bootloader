@@ -6,3 +6,5 @@ reste a faire :
 -code kernel mode normal/test
 -gdt
 -verifier code bootloader
+
+RAPPORT
