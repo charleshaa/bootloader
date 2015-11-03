@@ -19,7 +19,7 @@ void kernel(){
    	set_backColor(i);
    	set_foreColor((i+1)%16);
    	monitor_clear();
-   	monitor_write("\n\n\n\tTEST DES COULEUR");
+   	monitor_write("\n\n\n\tTEST DES COULEURS");
    	wait(1);
 	}
 	set_backColor(COLOR_BLACK);
