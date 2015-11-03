@@ -13,8 +13,8 @@ static uint8_t cursor_x = 0;
 static uint8_t cursor_y = 0;
 
 //Couleur (caractere et fond)
-static uint8_t backColor = 0;
-static uint8_t foreColor = 15;
+static uint8_t backColor = COLOR_BLACK;
+static uint8_t foreColor = COLOR_WHITE;
 
 
 void monitor_init() {
@@ -96,7 +96,7 @@ void monitor_put(char c)
       cursor_y++;
    }
    //si "c" est un caractere imprimable
-   else if(c >= ' ') {
+   else {
       //calcul de la position en 1D dans la memoire video
       position = video_memory + (cursor_y*80 + cursor_x);
       //Ecrire dans la memoire video
@@ -187,25 +187,23 @@ void printf(char *fmt, ...) {
 	while(fmt[i]) {
 		if(fmt[i]=='%') {
 			i++;
+			arg++;
 			switch(fmt[i]) {
 				case 'd':
-					arg = arg + 1;
 					print_dec(*arg);
 				break;
-				case 's':
-					arg = arg + 1;
-					char* str = &arg;
+				case 's':;
+					char* str = *arg;
 					monitor_write(str);
 				break;
 				case 'c':
-					arg = arg + 1;
 					monitor_put(*arg);
 				break;
 				case 'x':
-					arg = arg + 1;
 					print_hex(*arg);
 				break;
 				default:
+					arg--;
 					monitor_put(fmt[i]);
 				break;
 			}
@@ -235,10 +233,15 @@ void print_hex(uint32_t value) {
 	}
 }
 
-void print_dec(uint32_t value) {
+void print_dec(int32_t value) {
 	bool flag0 = false;
 	char c;
+	if(value < 0) {
+		monitor_put('-');
+		value = ~value +1;
+	}
 	for (int16_t i = 9; i >= 0; i--) {
+
 		c=(((value/pow(10,i))) %10)+'0';
 
 		//pour ne pas afficher les 0 inutils
@@ -247,5 +250,14 @@ void print_dec(uint32_t value) {
 
 		if(i == 0 || flag0)
 			monitor_put(c);
+	}
+}
+
+void wait(uint32_t t) {
+	for (uint32_t j = 0; j < t; ++j)	{
+		for (uint32_t i = 0; i < 100000000; ++i) {
+			i++;
+			i--;
+		}
 	}
 }

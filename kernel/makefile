@@ -1,10 +1,12 @@
+DFLAGS=
+
 all: run
 
 bootloader.o: bootloader.s
 	nasm -f elf32 $< -o $@
 
 kernel.o: kernel.c
-	gcc kernel.c -o kernel.o -std=gnu99 -m32 -fno-builtin -ffreestanding -Wall -Wextra -c
+	gcc $(DFLAGS) kernel.c -o kernel.o -std=gnu99 -m32 -fno-builtin -ffreestanding -Wall -Wextra -c
 
 gdt_asm.o: gdt_asm.s
 	nasm -f elf32 gdt_asm.s

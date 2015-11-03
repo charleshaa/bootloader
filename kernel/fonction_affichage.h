@@ -108,7 +108,14 @@ void print_hex(uint32_t value);
 	afficher une valeur en decimal
 	0xA donne "10"
 	0x80 donne "128"
+	0xFFFFFFFF donne "-1"
 */
-void print_dec(uint32_t value);
+void print_dec(int32_t value);
+
+
+/*
+attendre
+*/
+void wait(uint32_t t);
 
 #endif
