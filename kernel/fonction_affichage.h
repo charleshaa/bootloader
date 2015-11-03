@@ -6,6 +6,23 @@ extern void outw(uint16_t port, uint16_t data);
 extern uint8_t inb(uint16_t port);
 extern uint16_t inw(uint16_t port);
 
+#define COLOR_BLACK 0
+#define COLOR_BLUE 1
+#define COLOR_GREEN 2
+#define COLOR_CYAN 3
+#define COLOR_RED 4
+#define COLOR_MAGENTA 5
+#define COLOR_BROWN 6
+#define COLOR_LIGHT_GRAY 7
+#define COLOR_DARK_GRAY 8
+#define COLOR_LIGHT_BLUE 9
+#define COLOR_LIGHT_GREEN 10
+#define COLOR_LIGHT_CYAN 11
+#define COLOR_LIGHT_RED 12
+#define COLOR_LIGHT_MAGENTA 13
+#define COLOR_YELLOW 14
+#define COLOR_WHITE 15
+
 /*set_cursor
 Place le curseur dans la fenetre a la position "row", "col"
 row de 0 a 24
@@ -70,5 +87,28 @@ static void scroll();
 Initialisation de l'affichage (curseur)
 */
 void monitor_init();
+
+/*printf
+Affiche une chaine de caractere formatee
+%s = une string
+%d = une valeur decimal
+%c = un caractere
+%x = une valuer hexa
+*/
+void printf(char *fmt, ...);
+
+/*print_hex
+afficher un valeux en hexa
+0x123A donne "0x123A"
+0x0023 donne "0x23"
+*/
+void print_hex(uint32_t value);
+
+/*print_dec
+	afficher une valeur en decimal
+	0xA donne "10"
+	0x80 donne "128"
+*/
+void print_dec(uint32_t value);
 
 #endif

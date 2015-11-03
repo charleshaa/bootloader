@@ -34,8 +34,8 @@ section .text
 		mov	ebp,esp
 
 		mov	dx,[ebp+8] ;port
-		in		al,dx		  ;lit "data" sur le port "port"
-							  ;retourne "data"
+		in		al,dx  ;lit "data" sur le port "port"
+					   ;retourne "data"
 		mov	esp,ebp
 		pop	ebp
 		ret
@@ -45,8 +45,8 @@ section .text
 		mov	ebp,esp
 
 		mov	dx,[ebp+8] ;port
-		in		ax,dx		  ;lit "data" sur le port "port"
-							  ;retourne "data"
+		in		ax,dx  ;lit "data" sur le port "port"
+					   ;retourne "data"
 		mov	esp,ebp
 		pop	ebp
 		ret

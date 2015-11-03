@@ -1,6 +1,5 @@
 #include "../common/types.h"
 #include "x86.h"
-#include "kernel.h"
 #include "fonction.h"
 #include "gdt.h"
 #include "fonction_affichage.h"
@@ -24,7 +23,13 @@ void monitor_init() {
    outw(0x3D5, 0);
    //Cursor End Register
    outb(0x3D4, 0xB);                 
-   outw(0x3D5, 31);      
+   outw(0x3D5, 31);
+
+   //Place le curseur en haut a gauche
+   set_cursor(0,0);  
+
+   //Efface l'ecrant
+   monitor_clear();    
 }
 
 
@@ -131,7 +136,7 @@ void monitor_clear()
       video_memory[i] = espace;
    
    //Place le curseur en haut a gauche
-   set_cursor(cursor_x, cursor_y);
+   set_cursor(0, 0);
 }
 
 static void scroll()
@@ -159,12 +164,79 @@ static void scroll()
 void set_backColor(uint8_t color) {
    backColor = color;
 }
+
 void set_foreColor(uint8_t color) {
    foreColor = color;
 }
+
 uint8_t get_backColor() {
    return backColor;
 }
+
 uint8_t get_foreColor() {
    return foreColor;
+}
+
+void printf(char *fmt, ...) {
+
+	uint16_t i = 0;
+	uint32_t *arg = &fmt;
+
+
+	while(fmt[i]) {
+		if(fmt[i]=='%') {
+			i++;
+			switch(fmt[i]) {
+				case 'd':
+					arg = arg + 1;
+					print_dec(*arg);
+				break;
+				case 's':
+					/*arg = arg + 1;
+					monitor_write(&arg);*/
+				break;
+				case 'c':
+					arg = arg + 1;
+					monitor_put(*arg);
+				break;
+				case 'x':
+					arg = arg + 1;
+					print_hex(*arg);
+				break;
+				default:
+					monitor_put(fmt[i]);
+				break;
+			}
+		} else {
+			monitor_put(fmt[i]);
+		}
+		i++;
+	}
+}
+
+void print_hex(uint32_t value) {
+
+	uint32_t value_temp = 0;
+	monitor_write("0x");
+	bool flag0 = false;
+	for (int8_t j = 7; j >= 0; j--) {
+		value_temp = (value>>(j*4)) & 0xf;
+
+		//pour ne pas afficher les 0 inutils
+		if(value_temp > 0)
+			flag0 =  true;
+
+		if((value_temp >= 0) && (value_temp <= 9)) {
+			if((value_temp == 0 && flag0) || j == 0 || value_temp > 0)
+				monitor_put(value_temp + '0');
+		} else {
+			monitor_put(value_temp - 10 + 'A');
+		}
+	}
+}
+
+void print_dec(uint32_t value) {
+
+
+	
 }
