@@ -3,6 +3,7 @@
 #include "fonction.h"
 #include "gdt.h"
 #include "fonction_affichage.h"
+#include "math.h"
 
 //1ere adresse memoire video
 static uint16_t *video_memory = (uint16_t *)0xB8000;
@@ -33,7 +34,7 @@ void monitor_init() {
 }
 
 
-void set_cursor(int row, int col)
+void set_cursor(uint8_t row, uint8_t col)
 {
    cursor_x = row;
    cursor_y = col;
@@ -192,8 +193,9 @@ void printf(char *fmt, ...) {
 					print_dec(*arg);
 				break;
 				case 's':
-					/*arg = arg + 1;
-					monitor_write(&arg);*/
+					arg = arg + 1;
+					char* str = &arg;
+					monitor_write(str);
 				break;
 				case 'c':
 					arg = arg + 1;
@@ -219,6 +221,8 @@ void print_hex(uint32_t value) {
 	uint32_t value_temp = 0;
 	monitor_write("0x");
 	bool flag0 = false;
+	char char_hex[] = "0123456789ABCDEF";
+
 	for (int8_t j = 7; j >= 0; j--) {
 		value_temp = (value>>(j*4)) & 0xf;
 
@@ -226,17 +230,22 @@ void print_hex(uint32_t value) {
 		if(value_temp > 0)
 			flag0 =  true;
 
-		if((value_temp >= 0) && (value_temp <= 9)) {
-			if((value_temp == 0 && flag0) || j == 0 || value_temp > 0)
-				monitor_put(value_temp + '0');
-		} else {
-			monitor_put(value_temp - 10 + 'A');
-		}
+		if(j == 0 || flag0)
+			monitor_put(char_hex[value_temp]);
 	}
 }
 
 void print_dec(uint32_t value) {
+	bool flag0 = false;
+	char c;
+	for (int16_t i = 9; i >= 0; i--) {
+		c=(((value/pow(10,i))) %10)+'0';
 
+		//pour ne pas afficher les 0 inutils
+		if(c > '0')
+			flag0 = true;
 
-	
+		if(i == 0 || flag0)
+			monitor_put(c);
+	}
 }

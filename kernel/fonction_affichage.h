@@ -28,7 +28,7 @@ Place le curseur dans la fenetre a la position "row", "col"
 row de 0 a 24
 col de 0 a 79
 */
-void set_cursor(int row, int col);
+void set_cursor(uint8_t row, uint8_t col);
 
 /*get_cursor
 Obtenir la position du curseur

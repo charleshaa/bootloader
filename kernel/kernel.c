@@ -15,9 +15,10 @@ void kernel(){
    monitor_clear();
    printf("%ccoucou%csalut%c",'X','?','Z');
    //monitor_write("0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24");
-   monitor_write("\ngisdzgfuzdlg\n");
-   printf("test %x",0x753A1235);
-   print_dec(1024);
+   printf("\ngisdzgfuzdlg%s\n","QWERTZUIO");
+   printf("test %x",0x000753A1);
+   printf("\ntest dec : 1024 :%d",1024);
+   printf("\n zero %d", 0);
    //get_cursor();
 
    //fin du programme
