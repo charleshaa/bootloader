@@ -1,3 +1,11 @@
+/**
+ * @file math.c
+ * @brief fonction mathematique
+ * @author Pasquier Gerome
+ * @date Novembre 2015
+ * @version 0.1
+ */
+
 #include "../common/types.h"
 #include "x86.h"
 #include "math.h"

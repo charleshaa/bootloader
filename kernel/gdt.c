@@ -1,3 +1,11 @@
+/**
+ * @file gdt.c
+ * @brief fonction pour une initialisation de GDT
+ * @author Pasquier Gerome
+ * @date Novembre 2015
+ * @version 0.1
+ */
+
 #include "../common/types.h"
 #include "gdt.h"
 #include "x86.h"

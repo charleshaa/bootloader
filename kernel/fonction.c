@@ -1,5 +1,12 @@
-#include "fonction.h"
+/**
+ * @file fonction.c
+ * @brief fonction de base pour un OS 
+ * @author Pasquier Gerome,
+ * @date Novembre 2015
+ * @version 0.1
+ */
 
+#include "fonction.h"
 
 void *memset (void * dst, int value, unsigned int count) {
    char *dp = dst;

@@ -27,7 +27,7 @@ fonction_affichage.o: fonction_affichage.c fonction_affichage.h
 	gcc -std=gnu99 -m32 -fno-builtin -ffreestanding -Wall -Wextra -c fonction_affichage.c
 
 kernel.elf: kernel.o gdt_asm.o bootloader.o gdt.o fonction.o fonction_asm.o fonction_affichage.o math.o
-	ld -Tkernel.ld -melf_i386 kernel.o gdt_asm.o bootloader.o gdt.o fonction.o fonction_asm.o fonction_affichage.o math.o -o kernel.elf 
+	ld -Tkernel.ld -melf_i386 $^ -o kernel.elf 
 	cp kernel.elf ../iso/boot
 
 ../iso:

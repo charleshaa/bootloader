@@ -49,7 +49,7 @@ entrypoint:
 section .stack
 align 4    ; section aligned to a 4 bytes boundary
 
-stack:
+
 	resb 2^20;reserver de la memoire pour la pile
 
 

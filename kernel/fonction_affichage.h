@@ -6,6 +6,7 @@ extern void outw(uint16_t port, uint16_t data);
 extern uint8_t inb(uint16_t port);
 extern uint16_t inw(uint16_t port);
 
+//couleur disponible pour l'affichage
 #define COLOR_BLACK 0
 #define COLOR_BLUE 1
 #define COLOR_GREEN 2
@@ -23,10 +24,17 @@ extern uint16_t inw(uint16_t port);
 #define COLOR_YELLOW 14
 #define COLOR_WHITE 15
 
+//taille de l'ecrant (en nombre de caractere)
+#define MONITOR_NB_COL 80
+#define MONITOR_NB_RAW 25
+
+//taille d'une tabulation (en nombre de caractere)
+#define MONITOR_SIZE_TAB 8
+
 /*set_cursor
 Place le curseur dans la fenetre a la position "row", "col"
-row de 0 a 24
-col de 0 a 79
+"row" de 0 a 24
+"col" de 0 a 79
 */
 void set_cursor(uint8_t row, uint8_t col);
 

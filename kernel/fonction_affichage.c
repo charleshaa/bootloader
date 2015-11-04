@@ -1,3 +1,11 @@
+/**
+ * @file fonction_affichage.c
+ * @brief fonction de gestion de l'affichage de l'OS 
+ * @author Pasquier Gerome,
+ * @date Novembre 2015
+ * @version 0.1
+ */
+
 #include "../common/types.h"
 #include "x86.h"
 #include "fonction.h"
@@ -39,7 +47,7 @@ void set_cursor(uint8_t row, uint8_t col)
    cursor_x = row;
    cursor_y = col;
    //Calcul de la position du curseur en 1D
-   uint16_t pos_1D = col * 80 + row;
+   uint16_t pos_1D = col * MONITOR_NB_COL + row;
    //Position du curseur
    //MSB
    outb(0x3D4, 0xE);                 
@@ -81,7 +89,7 @@ void monitor_put(char c)
    //si "c" est une tabulation
    else if (c == '\t')
       //deplace le curseur vers la droite jusq'au prochain multiple de 8
-      cursor_x = (cursor_x+8) & 0xF8;
+      cursor_x = cursor_x + (MONITOR_SIZE_TAB - (cursor_x + MONITOR_SIZE_TAB)%MONITOR_SIZE_TAB);
 
    //si "c" est un carriage return
    else if (c == '\r')
@@ -98,7 +106,7 @@ void monitor_put(char c)
    //si "c" est un caractere imprimable
    else {
       //calcul de la position en 1D dans la memoire video
-      position = video_memory + (cursor_y*80 + cursor_x);
+      position = video_memory + (cursor_y*MONITOR_NB_COL + cursor_x);
       //Ecrire dans la memoire video
       *position = c | char_attribut;
       //Deplacer le curseur
@@ -106,7 +114,7 @@ void monitor_put(char c)
    }
 
    //si on arrive en fin de ligne
-   if (cursor_x >= 80) {
+   if (cursor_x >= MONITOR_NB_COL) {
       cursor_x = 0;
       cursor_y ++;
    }
@@ -131,9 +139,8 @@ void monitor_clear()
    uint8_t attribut = (backColor << 4) | (foreColor & 0x0F);
    uint16_t espace = ' ' | (attribut << 8);
 
-   int i;
-   //Insert des espaces dans tous l'affichage
-   for (i = 0; i < 80*25; i++)
+   //Insert des espaces dans tous l'affichage;
+   for (int i = 0; i < MONITOR_NB_COL*MONITOR_NB_RAW; i++)
       video_memory[i] = espace;
    
    //Place le curseur en haut a gauche
@@ -146,19 +153,18 @@ static void scroll()
    uint16_t espace = ' ' | (attribut << 8);
 
    //Si le curseur est en bas de l'affichage
-   if(cursor_y >= 25)
-   {
+   if(cursor_y >= MONITOR_NB_RAW) {
+
       //Copier les ligne 1 a 24 sur les lignes 0 a 23
-      int i;
-      for (i = 0*80; i < 24*80; i++)
-           video_memory[i] = video_memory[i+80];
+      for (int i = 0; i < (MONITOR_NB_RAW-1)*MONITOR_NB_COL; i++)
+           video_memory[i] = video_memory[i+MONITOR_NB_COL];
        
       //Effacer la derniere ligne (mettre des espaces)
-      for (i = 24*80; i < 25*80; i++)
+      for (int i = (MONITOR_NB_RAW-1)*MONITOR_NB_COL; i < MONITOR_NB_RAW*MONITOR_NB_COL; i++)
          video_memory[i] = espace;
        
       //Placer le curseur en debut de derniere ligne
-      set_cursor(cursor_x, 24);
+      set_cursor(cursor_x, (MONITOR_NB_RAW-1));
    }
 }
 
@@ -179,33 +185,31 @@ uint8_t get_foreColor() {
 }
 
 void printf(char *fmt, ...) {
-
 	uint16_t i = 0;
 	uint32_t *arg = &fmt;
-
 
 	while(fmt[i]) {
 		if(fmt[i]=='%') {
 			i++;
-			arg++;
+			arg++; //pointe sur l'argument suivant en memoire
 			switch(fmt[i]) {
-				case 'd':
+				case 'd': //afficher une valeur en decimal
 					print_dec(*arg);
-				break;
-				case 's':;
+					break;
+				case 's':; //afficher une chaine de caractere
 					char* str = *arg;
 					monitor_write(str);
-				break;
-				case 'c':
+					break;
+				case 'c': //afficher un seul caractere
 					monitor_put(*arg);
-				break;
-				case 'x':
+					break;
+				case 'x': //afficher une valeur en hexadecimal
 					print_hex(*arg);
-				break;
+					break;
 				default:
 					arg--;
 					monitor_put(fmt[i]);
-				break;
+					break;
 			}
 		} else {
 			monitor_put(fmt[i]);
