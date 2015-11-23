@@ -11,6 +11,7 @@
 #include "kernel.h"
 #include "fonction.h"
 #include "gdt.h"
+#include "idt.h"
 #include "fonction_affichage.h"
 
 
@@ -18,7 +19,12 @@ void kernel(){
    //initialisation de la GDT et de l'affichage
    gdt_init();
    monitor_init();
-
+   set_backColor(COLOR_BLACK);
+   set_foreColor(COLOR_LIGHT_GRAY);
+   monitor_clear();
+   idt_init();
+   printf("That's pretty cewl !\n");
+   wait(2);
    #ifdef _DEBUG
    //Mode debug : effectue des testes sur toutes les fonction d'affichage
       //test couleur
@@ -91,9 +97,10 @@ void kernel(){
       set_backColor(COLOR_LIGHT_GRAY);
       set_foreColor(COLOR_DARK_GRAY);
       monitor_clear();
-      printf("\n\tInitialisation de la console :\tOK\n");
-      printf("\n\tInitialisation de la GDT :\tOK");
-      printf("\n\t");
+      printf("\nInitialisation de la console :\tOK\n");
+      printf("\nInitialisation de la GDT :\tOK");
+      printf("\nInitialisation de la IDT :\tOK");
+      printf("\n");
    #endif
    //fin du programme
    while(1);

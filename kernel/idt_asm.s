@@ -72,9 +72,6 @@ irq i
 ;------------------------------------------------
 ; Wrapper for exceptions
 
-%assign i 0
-%rep 21
-
 exception_wrapper:
     ; Save all registers
     push    eax
@@ -119,12 +116,10 @@ exception_wrapper:
     add     esp,8
     iret
 
-    %assign i i+1
-    %endrep
 
-    ;INTERRUPTIONS WRAPPER
+;INTERRUPTIONS WRAPPER
 
-    interruptions_wrapper:
+interruptions_wrapper:
     ; Save all registers
     push    eax
     push    ebx
@@ -167,3 +162,11 @@ exception_wrapper:
 	; Fix the stack pointer due to the 2 push done before the call to exception_wrapper
     add     esp,8
     iret
+
+;------------------------------------------------
+; Load the IDT
+global idt_load
+; Argument : address of idt structure
+idt_load:
+    mov eax,[esp+4]
+    lidt [eax]
