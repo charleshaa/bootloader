@@ -12,17 +12,32 @@
 #include "fonction.h"
 #include "gdt.h"
 #include "idt.h"
+#include "pic.h"
 #include "fonction_affichage.h"
 
 
 void kernel(){
-   //initialisation de la GDT et de l'affichage
+   // Initialisation des reroutages des interruptions
+   pic_init();
+   // GDT init
    gdt_init();
+   // Monitor init
    monitor_init();
+
+
    set_backColor(COLOR_BLACK);
    set_foreColor(COLOR_LIGHT_GRAY);
+
    monitor_clear();
+
+   // On initialise la IDT
+
    idt_init();
+
+   // On active les interruptions
+
+   sti();
+
    printf("That's pretty cewl !\n");
    wait(2);
    #ifdef _DEBUG

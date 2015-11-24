@@ -14,7 +14,7 @@ debug: iso/kernel_debug.iso
 	qemu-system-i386 -hda iso/kernel_debug.iso
 
 run: iso/kernel.iso
-	qemu-system-i386 -hda iso/kernel.iso
+	qemu-system-i386 -monitor stdio -s -S -hda iso/kernel.iso
 
 clean:
 	clear
