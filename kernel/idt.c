@@ -1,6 +1,7 @@
 #include "idt.h"
 #include "x86.h"
 #include "pic.h"
+#include "keyboard.h"
 // CPU context used when saving/restoring context from an interrupt
 typedef struct regs_st {
     uint32_t gs, fs, es, ds;
@@ -34,71 +35,7 @@ static idt_ptr_t idt_ptr;
 
 void exception_handler(regs_t *regs) {
     printf("Exception : %d \n", regs->number);
-    wait(10);
     switch (regs->number) {
-        case 0:
-            printf("");
-            break;
-        case 1:
-            printf("");
-            break;
-        case 2:
-            printf("");
-            break;
-        case 3:
-            printf("");
-            break;
-        case 4:
-            printf("");
-            break;
-        case 5:
-            printf("");
-            break;
-        case 6:
-            printf("");
-            break;
-        case 7:
-            printf("");
-            break;
-        case 8:
-            printf("");
-            break;
-        case 9:
-            printf("");
-            break;
-        case 10:
-            printf("");
-            break;
-        case 11:
-            printf("");
-            break;
-        case 12:
-            printf("");
-            break;
-        case 13:
-            printf("");
-            break;
-        case 14:
-            printf("");
-            break;
-        case 15:
-            printf("");
-            break;
-        case 16:
-            printf("");
-            break;
-        case 17:
-            printf("");
-            break;
-        case 18:
-            printf("");
-            break;
-        case 19:
-            printf("");
-            break;
-        case 20:
-            printf("");
-            break;
         default:
             break;
     }
@@ -106,59 +43,16 @@ void exception_handler(regs_t *regs) {
 
 // Interruption handler
 void interruption_handler(regs_t *regs) {
-    printf("irq: %d\n", regs->number);
-    wait(10);
     /* TODO : switch sur regs, printf de la bonne exception */
     switch (regs->number) {
         case 0:
-            printf("");
+            //timer
             break;
         case 1:
-            printf("Hello !");
-            wait(5);
+            // keyboard
+            keyboard_handler();
             break;
-        case 2:
-            printf("");
-            break;
-        case 3:
-            printf("");
-            break;
-        case 4:
-            printf("");
-            break;
-        case 5:
-            printf("");
-            break;
-        case 6:
-            printf("");
-            break;
-        case 7:
-            printf("");
-            break;
-        case 8:
-            printf("");
-            break;
-        case 9:
-            printf("");
-            break;
-        case 10:
-            printf("");
-            break;
-        case 11:
-            printf("");
-            break;
-        case 12:
-            printf("");
-            break;
-        case 13:
-            printf("");
-            break;
-        case 14:
-            printf("");
-            break;
-        case 15:
-            printf("");
-            break;
+
         default:
             break;
     }

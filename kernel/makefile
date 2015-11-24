@@ -17,6 +17,9 @@ idt_asm.o: idt_asm.s
 fonction_asm.o: fonction_asm.s
 	nasm -f elf32 fonction_asm.s
 
+fonction_affichage.o: fonction_affichage.c fonction_affichage.h
+	gcc -std=gnu99 -m32 -fno-builtin -ffreestanding -Wall -Wextra -c fonction_affichage.c
+
 gdt.o: gdt.c fonction.h ../common/types.h x86.h
 	gcc -std=gnu99 -m32 -fno-builtin -ffreestanding -Wall -Wextra -c gdt.c
 
@@ -29,13 +32,15 @@ idt.o: idt.c idt.h
 fonction.o: fonction.c fonction.h
 	gcc -std=gnu99 -m32 -fno-builtin -ffreestanding -Wall -Wextra -c fonction.c
 
+keyboard.o: keyboard.c keyboard.h fonction_affichage.o
+	gcc -std=gnu99 -m32 -fno-builtin -ffreestanding -Wall -Wextra -c keyboard.c
+
 math.o: math.c math.h
 	gcc -std=gnu99 -m32 -fno-builtin -ffreestanding -Wall -Wextra -c math.c
 
-fonction_affichage.o: fonction_affichage.c fonction_affichage.h
-	gcc -std=gnu99 -m32 -fno-builtin -ffreestanding -Wall -Wextra -c fonction_affichage.c
 
-kernel.elf: kernel.o pic.o gdt_asm.o idt_asm.o bootloader.o gdt.o fonction.o fonction_asm.o fonction_affichage.o math.o idt.o
+
+kernel.elf: kernel.o pic.o gdt_asm.o idt_asm.o bootloader.o gdt.o fonction.o fonction_asm.o fonction_affichage.o math.o idt.o keyboard.o
 	ld -Tkernel.ld -melf_i386 $^ -o kernel.elf
 	cp kernel.elf ../iso/boot
 

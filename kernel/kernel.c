@@ -14,6 +14,8 @@
 #include "idt.h"
 #include "pic.h"
 #include "fonction_affichage.h"
+#include "keyboard.h"
+
 
 
 void kernel(){
@@ -39,7 +41,7 @@ void kernel(){
    sti();
 
    printf("That's pretty cewl !\n");
-   wait(2);
+
    #ifdef _DEBUG
    //Mode debug : effectue des testes sur toutes les fonction d'affichage
       //test couleur
@@ -116,6 +118,10 @@ void kernel(){
       printf("\nInitialisation de la GDT :\tOK");
       printf("\nInitialisation de la IDT :\tOK");
       printf("\n");
+      for(;;)
+      {
+        getc();
+      }
    #endif
    //fin du programme
    while(1);
